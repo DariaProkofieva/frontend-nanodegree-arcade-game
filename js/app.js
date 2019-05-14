@@ -1,3 +1,7 @@
+// Function to generate speed
+function getRandomFloat(min, max) {
+  return Math.random() * (max - min) + min;
+}
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -18,6 +22,9 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x+=this.speed*dt;
+    if (this.x>520){
+      this.x=-50;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -27,17 +34,22 @@ Enemy.prototype.render = function() {
 
 // Now write your own player class
 var Player = function(x, y) {
-
     this.x=x;
     this.y=y;
     this.sprite = 'images/char-horn-girl.png';
+  }
     // This class requires an update(), render() and
     // a handleInput() method.
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+var enemy1=new Enemy(-50, 65, getRandomFloat(50, 400));
+var enemy2=new Enemy(-50, 150, getRandomFloat(50, 400));
+var enemy3=new Enemy(-50, 150, getRandomFloat(50, 600));
+var enemy4=new Enemy(-50, 230, getRandomFloat(50, 400));
+var allEnemies=[enemy1,enemy2,enemy3,enemy4];
 // Place the player object in a variable called player
-
-
+var player= new Player(303,606);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
