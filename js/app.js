@@ -36,11 +36,28 @@ Enemy.prototype.render = function() {
 var Player = function(x, y) {
     this.x=x;
     this.y=y;
-    this.sprite = 'images/char-horn-girl.png';
-  }
+    this.sprite = 'images/char-boy.png';
+};
+
+
     // This class requires an update(), render() and
     // a handleInput() method.
-
+Player.prototype.update = function(dt) {
+};
+Player.prototype.render = function() {
+     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+Player.prototype.handleInput=function(keyCode) {
+  if (keyCode=='left' && player.x>=101){
+    player.x=player.x-101;
+  }else if(keyCode=='up' && player.y>=0){
+    player.y=player.y-85;
+  }else if(keyCode=='right' && player.x<=303){
+    player.x=player.x+101 ;
+  }else if(keyCode=='down' && player.y<=350){
+    player.y=player.y+85;
+  }
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var enemy1=new Enemy(-50, 65, getRandomFloat(50, 400));
@@ -49,7 +66,7 @@ var enemy3=new Enemy(-50, 150, getRandomFloat(50, 600));
 var enemy4=new Enemy(-50, 230, getRandomFloat(50, 400));
 var allEnemies=[enemy1,enemy2,enemy3,enemy4];
 // Place the player object in a variable called player
-var player= new Player(303,606);
+var player= new Player(202,400);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
