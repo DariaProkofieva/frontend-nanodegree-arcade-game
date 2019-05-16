@@ -2,6 +2,10 @@
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
+function reset() {
+  player.x=202;
+  player.y=400;
+}
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -24,6 +28,10 @@ Enemy.prototype.update = function(dt) {
     this.x+=this.speed*dt;
     if (this.x>520){
       this.x=-50;
+    }
+    //Сheck for collisions
+    if((this.x+50)>=player.x && this.x<=(player.x+50) && (this.y+50)>=player.y && this.y<=(player.y+50)){
+      reset();
     }
 };
 
@@ -57,6 +65,9 @@ Player.prototype.handleInput=function(keyCode) {
   }else if(keyCode=='down' && player.y<=350){
     player.y=player.y+85;
   }
+
+
+
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
