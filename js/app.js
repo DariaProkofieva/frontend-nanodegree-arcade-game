@@ -6,6 +6,10 @@ function reset() {
   player.x=202;
   player.y=400;
 }
+//If the button "play again" is pressed, the game starts again
+document.getElementById('button1').onclick = function() {
+  document.querySelector('.congratulations').style.visibility='hidden';
+};
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -30,7 +34,7 @@ Enemy.prototype.update = function(dt) {
       this.x=-50;
     }
     //Сheck for collisions
-    if((this.x+50)>=player.x && this.x<=(player.x+50) && (this.y+50)>=player.y && this.y<=(player.y+50)){
+    if((this.x+65)>=player.x && this.x<=(player.x+65) && (this.y+65)>=player.y && this.y<=(player.y+65)){
       reset();
     }
 };
@@ -51,6 +55,12 @@ var Player = function(x, y) {
     // This class requires an update(), render() and
     // a handleInput() method.
 Player.prototype.update = function(dt) {
+  if(player.y<=10){
+    setTimeout(function() {
+      reset();
+      document.querySelector('.congratulations').style.visibility='visible';
+    }, 1000);
+  }
 };
 Player.prototype.render = function() {
      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -65,19 +75,17 @@ Player.prototype.handleInput=function(keyCode) {
   }else if(keyCode=='down' && player.y<=350){
     player.y=player.y+85;
   }
-
-
-
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var enemy1=new Enemy(-50, 65, getRandomFloat(50, 400));
 var enemy2=new Enemy(-50, 150, getRandomFloat(50, 400));
-var enemy3=new Enemy(-50, 150, getRandomFloat(50, 600));
+var enemy3=new Enemy(-50, 150, getRandomFloat(50, 400));
 var enemy4=new Enemy(-50, 230, getRandomFloat(50, 400));
 var allEnemies=[enemy1,enemy2,enemy3,enemy4];
 // Place the player object in a variable called player
 var player= new Player(202,400);
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
