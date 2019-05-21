@@ -1,13 +1,15 @@
 // Function to generate speed
-function getRandomFloat(min, max) {
-  return Math.random() * (max - min) + min;
+function getRandomFloat() {
+   var minSpeed=50;
+   var maxSpeed=400;
+   return Math.random() * (maxSpeed - minSpeed) + minSpeed;
 }
 function reset() {
-  player.x=202;
-  player.y=400;
+   player.x=202;
+   player.y=400;
 }
 //If the button "play again" is pressed, the game starts again
-document.getElementById('button1').onclick = function() {
+document.getElementById('playAgainButton').onclick = function() {
   document.querySelector('.congratulations').style.visibility='hidden';
 };
 // Enemies our player must avoid
@@ -21,7 +23,7 @@ var Enemy = function(x, y, speed) {
     this.y=y;
     this.speed=speed;
     this.sprite = 'images/enemy-bug.png';
-};
+  };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -34,7 +36,8 @@ Enemy.prototype.update = function(dt) {
       this.x=-50;
     }
     //Сheck for collisions
-    if((this.x+65)>=player.x && this.x<=(player.x+65) && (this.y+65)>=player.y && this.y<=(player.y+65)){
+    var collisionsArea=65;
+    if((this.x+collisionsArea)>=player.x && this.x<=(player.x+collisionsArea) && (this.y+collisionsArea)>=player.y && this.y<=(player.y+collisionsArea)){
       reset();
     }
 };
@@ -50,38 +53,42 @@ var Player = function(x, y) {
     this.y=y;
     this.sprite = 'images/char-boy.png';
 };
-
-
     // This class requires an update(), render() and
     // a handleInput() method.
 Player.prototype.update = function(dt) {
-  if(player.y<=10){
-    setTimeout(function() {
-      reset();
-      document.querySelector('.congratulations').style.visibility='visible';
-    }, 1000);
-  }
+   if(player.y<=10){
+     setTimeout(function() {
+       reset();
+       document.querySelector('.congratulations').style.visibility='visible';
+     }, 1000);
+   }
 };
 Player.prototype.render = function() {
      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 Player.prototype.handleInput=function(keyCode) {
-  if (keyCode=='left' && player.x>=101){
-    player.x=player.x-101;
-  }else if(keyCode=='up' && player.y>=0){
-    player.y=player.y-85;
-  }else if(keyCode=='right' && player.x<=303){
-    player.x=player.x+101 ;
-  }else if(keyCode=='down' && player.y<=350){
-    player.y=player.y+85;
-  }
+   var distanceLeftRight=101;
+   var distanceUpDown=85;
+   if (keyCode=='left' && player.x>=distanceLeftRight){
+     player.x=player.x-distanceLeftRight;
+   }else if(keyCode=='up' && player.y>=0){
+     player.y=player.y-distanceUpDown;
+   }else if(keyCode=='right' && player.x<=303){
+     player.x=player.x+distanceLeftRight ;
+   }else if(keyCode=='down' && player.y<=350){
+     player.y=player.y+distanceUpDown;
+   }
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-var enemy1=new Enemy(-50, 65, getRandomFloat(50, 400));
-var enemy2=new Enemy(-50, 150, getRandomFloat(50, 400));
-var enemy3=new Enemy(-50, 150, getRandomFloat(50, 400));
-var enemy4=new Enemy(-50, 230, getRandomFloat(50, 400));
+var enemyStartPosition=-50;
+var firstRowEnemyPosition=65;
+var secondRowEnemyPosition=150;
+var thirdRowEnemyPosition=230;
+var enemy1=new Enemy(enemyStartPosition, firstRowEnemyPosition, getRandomFloat());
+var enemy2=new Enemy(enemyStartPosition, secondRowEnemyPosition, getRandomFloat());
+var enemy3=new Enemy(enemyStartPosition, secondRowEnemyPosition, getRandomFloat());
+var enemy4=new Enemy(enemyStartPosition, thirdRowEnemyPosition, getRandomFloat());
 var allEnemies=[enemy1,enemy2,enemy3,enemy4];
 // Place the player object in a variable called player
 var player= new Player(202,400);
